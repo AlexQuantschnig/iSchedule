@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import com.example.model.Course;
+import com.example.model.Timeslot;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,9 +10,7 @@ import com.example.repository.StudentRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class StudentController {
@@ -55,12 +54,35 @@ public class StudentController {
         }
     }
     @GetMapping("/enrollments")
-    public String showEnrollments(Model model,HttpServletRequest request) {
-        String email = (String)request.getSession().getAttribute("email");
+    public String showEnrollments(Model model, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
         Student student = studentRepository.findByEmail(email);
-        model.addAttribute("enrollments", student.getEnrollments());
+        List<Map<String, Object>> enrollments = getEnrollments(student);
+//        for (Timeslot timeslot : student.getEnrollments()) {
+//            Map<String, Object> enrollment = new HashMap<>();
+//            enrollment.put("id", timeslot.getId().toString());
+//            enrollment.put("startDateTime", timeslot.getStartDateTime());
+//            enrollment.put("endDateTime", timeslot.getEndDateTime());
+//            enrollment.put("courseName", timeslot.getCourse().getName());
+//            enrollment.put("room",timeslot.getRoom().getName());
+//            enrollments.add(enrollment);
+//        }
+        model.addAttribute("enrollments", enrollments);
         return "enrollments";
     }
 
+    public List<Map<String,Object>> getEnrollments(Student student){
+        List<Map<String, Object>> enrollments = new ArrayList<>();
+        for (Timeslot timeslot : student.getEnrollments()) {
+            Map<String, Object> enrollment = new HashMap<>();
+            enrollment.put("id", timeslot.getId().toString());
+            enrollment.put("startDateTime", timeslot.getStartDateTime());
+            enrollment.put("endDateTime", timeslot.getEndDateTime());
+            enrollment.put("courseName", timeslot.getCourse().getName());
+            enrollment.put("room",timeslot.getRoom().getName());
+            enrollments.add(enrollment);
+        }
+        return enrollments;
+    }
 
 }

@@ -50,4 +50,5 @@ public class Course {
     public void setTimeslots(Set<Timeslot> timeslots) {
         this.timeslots = timeslots;
     }
+
 }
