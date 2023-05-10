@@ -16,7 +16,6 @@ import java.util.*;
 public class StudentController {
 
     private final StudentRepository studentRepository;
-
     public StudentController(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
@@ -27,6 +26,12 @@ public class StudentController {
         model.addAttribute("students", students);
         return "students";
     }
+
+    @GetMapping("/logout")
+        public String logout(HttpServletRequest request){
+            request.getSession().invalidate();
+            return "redirect:/login";
+        }
 
     @GetMapping("/login")
     public String showLoginPage() {
@@ -58,19 +63,9 @@ public class StudentController {
         String email = (String) request.getSession().getAttribute("email");
         Student student = studentRepository.findByEmail(email);
         List<Map<String, Object>> enrollments = getEnrollments(student);
-//        for (Timeslot timeslot : student.getEnrollments()) {
-//            Map<String, Object> enrollment = new HashMap<>();
-//            enrollment.put("id", timeslot.getId().toString());
-//            enrollment.put("startDateTime", timeslot.getStartDateTime());
-//            enrollment.put("endDateTime", timeslot.getEndDateTime());
-//            enrollment.put("courseName", timeslot.getCourse().getName());
-//            enrollment.put("room",timeslot.getRoom().getName());
-//            enrollments.add(enrollment);
-//        }
         model.addAttribute("enrollments", enrollments);
         return "enrollments";
     }
-
     public List<Map<String,Object>> getEnrollments(Student student){
         List<Map<String, Object>> enrollments = new ArrayList<>();
         for (Timeslot timeslot : student.getEnrollments()) {
@@ -84,5 +79,6 @@ public class StudentController {
         }
         return enrollments;
     }
+
 
 }

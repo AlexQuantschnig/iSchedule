@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -38,5 +35,15 @@ public class CourseController {
                         .contains(course)).toList();
         model.addAttribute("courses", coursesNotEnrolled);
         return "courses";
+    }
+    @PostMapping("/enroll")
+    public String addEnrollment(@RequestParam("courseId") Long courseId, HttpServletRequest request) {
+        String email = (String) request.getSession().getAttribute("email");
+        Student student = studentRepository.findByEmail(email);
+        Course course = courseRepository.findById(courseId).orElseThrow();
+        Set<Timeslot> timeslots = course.getTimeslots();
+        student.getEnrollments().addAll(timeslots);
+        studentRepository.save(student);
+        return "redirect:/enrollments";
     }
 }
