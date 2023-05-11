@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import java.util.*;
 
 @Entity
-public class Student {
+public class Student{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+   private String name;
+
+    @Column(unique = true)
     private String email;
     private String password;
 
@@ -20,6 +22,7 @@ public class Student {
     private Set<Timeslot> enrollments = new HashSet<>();
 
     public Student() {
+
     }
 
 

@@ -1,7 +1,12 @@
 package com.example.repository;
 
 import com.example.model.Administrator;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 
-public interface AdministratorRepository extends CrudRepository<Administrator, Long> {
+import java.util.Optional;
+
+public interface AdministratorRepository extends JpaRepository<Administrator, Long> {
+    Optional<Administrator> findByEmailAndPassword(String email, String password);
+    Administrator findByEmail(String email);
 }

@@ -15,27 +15,32 @@
     <a class="navbar-brand" th:href="@{/logout}">LogOut</a>
     <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/courses'">Enroll in Courses</button>
 </nav>
-<h1 class="text-primary text-center" style="margin-top: 20px">Enrollments</h1>
+<div class="container">
+    <h1 class="text-primary text-center" style="margin-top: 20px">Enrollments</h1>
 
 
-<table class="table table-striped" style="margin-top: 60px">
-    <thead class="table-header">
-    <tr>
-        <th class="text-center">Course</th>
-        <th class="text-center">Room</th>
-        <th class="text-center">Start</th>
-        <th class="text-center">End</th>
-    </tr>
-    </thead>
-    <tbody class="table-tabs">
-    <tr th:each="enrollment : ${enrollments}">
-        <td th:text="${enrollment['courseName']}" class="text-center"></td>
-        <td th:text="${enrollment['room']}" class="text-center"></td>
-        <td th:text="${#temporals.format(enrollment['startDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}" class="text-center"></td>
-        <td th:text="${#temporals.format(enrollment['endDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}" class="text-center"></td>
-    </tr>
-    </tbody>
-</table>
+    <table class="table table-striped" style="margin-top: 60px">
+        <thead class="table-header">
+        <tr>
+            <th class="text-center">Course</th>
+            <th class="text-center">Room</th>
+            <th class="text-center">Start</th>
+            <th class="text-center">End</th>
+        </tr>
+        </thead>
+        <tbody class="table-tabs">
+        <tr th:each="enrollment : ${enrollments}">
+            <td th:text="${enrollment['courseName']}" class="text-center"></td>
+            <td th:text="${enrollment['room']}" class="text-center"></td>
+            <td th:text="${#temporals.format(enrollment['startDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}"
+                class="text-center"></td>
+            <td th:text="${#temporals.format(enrollment['endDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}"
+                class="text-center"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 
 </html>

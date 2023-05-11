@@ -12,18 +12,30 @@ public class Assistant {
     private Long id;
 
     private String name;
-
+    @Column(unique = true)
     private String email;
 
+    private String password;
     @OneToMany(mappedBy = "assistant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssistantPreference> preferences = new ArrayList<>();
 
     public Assistant() {
     }
 
-    public Assistant(String name, String email) {
+    public Assistant(Long id, String name, String email, String password, List<AssistantPreference> preferences) {
+        this.id = id;
         this.name = name;
         this.email = email;
+        this.password = password;
+        this.preferences = preferences;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     // Getters and setters
