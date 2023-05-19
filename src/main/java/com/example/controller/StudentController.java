@@ -1,7 +1,5 @@
 package com.example.controller;
-
 import com.example.model.Administrator;
-import com.example.model.Course;
 import com.example.model.Timeslot;
 import com.example.repository.AdministratorRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,17 +47,6 @@ public class StudentController {
         // Find the student with the given email and password
         Optional<Student> student = studentRepository.findByEmailAndPassword(email, password);
         Optional<Administrator> administrator = administratorRepository.findByEmailAndPassword(email, password);
-//        if (student.isPresent()) {
-//            // If the student is found, add them to the model and redirect to the homepage
-//            request.getSession().setAttribute("email", email);
-//            System.out.println(model);
-//            return "redirect:/enrollments";
-//        } else {
-//            // If the student is not found, add an error message to the model and return to the login page
-//            model.addAttribute("error", "Invalid email or password");
-//            System.out.println("Not found");
-//            return "login";
-//        }
         if (student.isPresent()){
             request.getSession().setAttribute("email", email);
             return "redirect:/enrollments";
@@ -71,14 +58,6 @@ public class StudentController {
             return "login";
         }
     }
-//    @GetMapping("/admin")
-//    public String showAdminPage(Model model, HttpServletRequest request) {
-//        String email = (String) request.getSession().getAttribute("email");
-//        Administrator administrator = administratorRepository.findByEmail(email);
-//        List<Course> allCourses = courseRepository.findAll();
-//        model.addAttribute("enrollments", enrollments);
-//        return "admin";
-//    }
     @GetMapping("/enrollments")
     public String showEnrollments(Model model, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");

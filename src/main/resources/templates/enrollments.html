@@ -11,10 +11,11 @@
 </head>
 
 <body>
-<nav class="navbar navbar-light bg-light justify-content-between">
+<nav class="navbar navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" th:href="@{/logout}">LogOut</a>
     <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/courses'">Enroll in Courses</button>
 </nav>
+<main style="margin-bottom: 100px">
 <div class="container">
     <h1 class="text-primary text-center" style="margin-top: 20px">Enrollments</h1>
 
@@ -40,7 +41,11 @@
         </tbody>
     </table>
 </div>
-
+</main>
+<footer class="bg-dark text-center text-white fixed-bottom">
+    <div class="text-center p-3 bg-dark">
+        ISchedule - 2023
+    </div>
+</footer>
 </body>
-
 </html>
