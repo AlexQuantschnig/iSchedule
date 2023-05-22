@@ -15,13 +15,25 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Timeslot> timeslots = new HashSet<>();
 
+    @ManyToMany(mappedBy = "enrollments")
+    private Set<Student> students = new HashSet<>();
+
     public Course() {
     }
 
-    public Course(Long id, String name, Set<Timeslot> timeslots) {
+    public Course(Long id, String name, Set<Timeslot> timeslots, Set<Student> students) {
         this.id = id;
         this.name = name;
         this.timeslots = timeslots;
+        this.students = students;
+    }
+
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
     }
 
     public Long getId() {

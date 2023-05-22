@@ -64,10 +64,8 @@ public class CourseController {
         Student student = studentRepository.findByEmail(email);
         List<Course> allCourses = courseRepository.findAll();
         List<Course> coursesNotEnrolled = allCourses.stream()
-                .filter(course -> !student.getEnrollments().stream()
-                        .map(Timeslot::getCourse)
-                        .collect(Collectors.toSet())
-                        .contains(course)).toList();
+                .filter(course -> !student.getEnrollments().contains(course))
+                .collect(Collectors.toList());
         model.addAttribute("courses", coursesNotEnrolled);
         return "courses";
     }
@@ -77,9 +75,30 @@ public class CourseController {
         String email = (String) request.getSession().getAttribute("email");
         Student student = studentRepository.findByEmail(email);
         Course course = courseRepository.findById(courseId).orElseThrow();
-        Set<Timeslot> timeslots = course.getTimeslots();
-        student.getEnrollments().addAll(timeslots);
+        student.getEnrollments().add(course);
         studentRepository.save(student);
         return "redirect:/enrollments";
     }
+
+    @PostMapping("/deleteCourse")
+    public String deleteCourse(@RequestParam("courseId") Long courseId) {
+        Course course = courseRepository.findById(courseId).orElseThrow();
+
+        // Remove the course from all students' enrollments
+        List<Student> students = studentRepository.findAll();
+        for (Student student : students) {
+            student.getEnrollments().remove(course);
+            studentRepository.save(student);
+        }
+
+        // Clear the enrollments of the course itself
+        course.getStudents().clear();
+        courseRepository.save(course);
+
+        // Delete the course
+        courseRepository.delete(course);
+
+        return "redirect:/admin";
+    }
+
 }

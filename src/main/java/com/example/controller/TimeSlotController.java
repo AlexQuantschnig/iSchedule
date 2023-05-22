@@ -8,6 +8,7 @@ import com.example.repository.TimeslotRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Time;
@@ -57,10 +58,15 @@ public class TimeSlotController {
             model.addAttribute("error", "Room is already booked!");
             return "addCourse";
         }
+        if (timeslotRepository.findByCourseAndStartDateTime(course, startDateTime) != null) {
+            model.addAttribute("error", "Course is already booked!");
+            return "addCourse";
+        }
         timeslotRepository.saveAndFlush(timeslot);
         return "addCourse";
     }
     private Time getTime(String time) {
+
         DateFormat timeFormat = new SimpleDateFormat("HH:mm");
         Date startTime;
         try {
@@ -69,5 +75,18 @@ public class TimeSlotController {
             throw new RuntimeException(e);
         }
         return new Time(startTime.getTime());
+    }
+    @GetMapping("/configureTimeslot")
+    private String configureTimeslot(@RequestParam("courseId") Long courseId, Model model) {
+        System.out.println(courseId);
+        List<Timeslot> timeslots = timeslotRepository.findAllByCourse_Id(courseId);
+        System.out.println(timeslots);
+        model.addAttribute("timeslots", timeslots);
+        return "configureTimeslot";
+    }
+    @PostMapping("/deleteTimeslot")
+    private String deleteTimeslot(@RequestParam("timeslotId") Long timeslotId) {
+        timeslotRepository.deleteById(timeslotId);
+        return "redirect:/admin";
     }
 }

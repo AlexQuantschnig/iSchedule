@@ -15,18 +15,18 @@ public class Student{
     private String email;
     private String password;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "enrollments",
             joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_timeslot_id"))
-    private Set<Timeslot> enrollments = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> enrollments = new HashSet<>();
 
     public Student() {
 
     }
 
 
-    public Student(Long id, String name, String password, String email,Set<Timeslot> enrollments) {
+    public Student(Long id, String name, String password, String email,Set<Course> enrollments) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -50,11 +50,11 @@ public class Student{
         this.name = name;
     }
 
-    public Set<Timeslot> getEnrollments() {
+    public Set<Course> getEnrollments() {
         return enrollments;
     }
 
-    public void setEnrollments(Set<Timeslot> enrollments) {
+    public void setEnrollments(Set<Course> enrollments) {
         this.enrollments = enrollments;
     }
 

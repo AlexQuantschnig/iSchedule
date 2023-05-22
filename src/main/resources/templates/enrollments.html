@@ -33,9 +33,9 @@
         <tr th:each="enrollment : ${enrollments}">
             <td th:text="${enrollment['courseName']}" class="text-center"></td>
             <td th:text="${enrollment['room']}" class="text-center"></td>
-            <td th:text="${#temporals.format(enrollment['startDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}"
+            <td th:text="${#temporals.format(enrollment['startDateTime'],'EEEE, MMMM d, yyyy - HH:mm')}"
                 class="text-center"></td>
-            <td th:text="${#temporals.format(enrollment['endDateTime'],'EEEE, MMMM d, yyyy - hh:mm')}"
+            <td th:text="${#temporals.format(enrollment['endDateTime'],'EEEE, MMMM d, yyyy - HH:mm')}"
                 class="text-center"></td>
         </tr>
         </tbody>

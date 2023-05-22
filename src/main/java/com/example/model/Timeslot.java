@@ -69,4 +69,15 @@ public class Timeslot {
     public void setRoom(Room room) {
         this.room = room;
     }
+
+    @Override
+    public String toString() {
+        return "Timeslot{" +
+                "id=" + id +
+                ", startDateTime=" + startDateTime +
+                ", endDateTime=" + endDateTime +
+                ", course=" + course +
+                ", room=" + room +
+                '}';
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.controller;
 import com.example.model.Administrator;
+import com.example.model.Course;
 import com.example.model.Timeslot;
 import com.example.repository.AdministratorRepository;
+import com.example.repository.TimeslotRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,12 @@ public class StudentController {
 
     private final StudentRepository studentRepository;
     private final AdministratorRepository administratorRepository;
-    public StudentController(StudentRepository studentRepository, AdministratorRepository administratorRepository) {
+
+    private final TimeslotRepository timeslotRepository;
+    public StudentController(StudentRepository studentRepository, AdministratorRepository administratorRepository, TimeslotRepository timeslotRepository) {
         this.studentRepository = studentRepository;
         this.administratorRepository = administratorRepository;
+        this.timeslotRepository = timeslotRepository;
     }
 
     @GetMapping("/students")
@@ -68,14 +73,21 @@ public class StudentController {
     }
     public List<Map<String,Object>> getEnrollments(Student student){
         List<Map<String, Object>> enrollments = new ArrayList<>();
-        for (Timeslot timeslot : student.getEnrollments()) {
-            Map<String, Object> enrollment = new HashMap<>();
-            enrollment.put("id", timeslot.getId().toString());
-            enrollment.put("startDateTime", timeslot.getStartDateTime());
-            enrollment.put("endDateTime", timeslot.getEndDateTime());
-            enrollment.put("courseName", timeslot.getCourse().getName());
-            enrollment.put("room",timeslot.getRoom().getName());
-            enrollments.add(enrollment);
+        List<Long> courseIds = new ArrayList<>();
+        for (Course course : student.getEnrollments()) {
+            courseIds.add(course.getId());
+        }
+        List<Timeslot> timeslots = timeslotRepository.findAll();
+        for (Timeslot timeslot : timeslots) {
+            if (courseIds.contains(timeslot.getCourse().getId())) {
+                Map<String, Object> enrollment = new HashMap<>();
+                enrollment.put("id", timeslot.getId().toString());
+                enrollment.put("startDateTime", timeslot.getStartDateTime());
+                enrollment.put("endDateTime", timeslot.getEndDateTime());
+                enrollment.put("courseName", timeslot.getCourse().getName());
+                enrollment.put("room",timeslot.getRoom().getName());
+                enrollments.add(enrollment);
+            }
         }
         return enrollments;
     }
