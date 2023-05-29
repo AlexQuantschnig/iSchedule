@@ -10,26 +10,43 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark justify-content-between">
-    <a class="navbar-brand" th:href="@{/admin}">Courses</a>
+    <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/admin'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+        <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+    </svg></button>
 </nav>
-    <main>
+    <main style="margin-bottom: 100px">
+        <h1 class="text-dark text-center" style="margin-top: 20px">Configure Timeslot</h1>
+        <h3 class="text-danger text-center" th:if="${error}" th:text="${error}"></h3>
         <div class="container">
+            <form th:action="@{/configureTimeslot}" method="post">
             <table class="table table-striped" style="margin-top: 60px">
                 <thead class="table-header">
                 <tr>
                     <th class="text-center">Timeslot ID</th>
                     <th class="text-center">Start Time</th>
                     <th class="text-center">End Time</th>
+                    <th class="text-center">Update</th>
                     <th class="text-center">Delete</th>
                 </tr>
                 </thead>
                 <tbody class="table-tabs">
                 <tr th:each="timeslot : ${timeslots}">
                     <td th:text="${timeslot.id}" class="text-center"></td>
-                    <td th:text="${#temporals.format(timeslot.startDateTime,'EEEE, MMMM d, yyyy - HH:mm')}"
-                        class="text-center"></td>
-                    <td th:text="${#temporals.format(timeslot.endDateTime,'EEEE, MMMM d, yyyy - HH:mm')}"
-                        class="text-center"></td>
+                    <td class="text-center">
+                        <input type="datetime-local" id="startDate" name="startDate" class="form-control" th:value="${timeslot.startDateTime}">
+                    </td>
+                    <td class="text-center">
+                        <input type="datetime-local" id="endDate" name="endDate" class="form-control" th:value="${timeslot.endDateTime}">
+                    </td>
+                    <td class="text-center">
+                            <input type="hidden" name="courseId" th:value="${timeslot.course.getId()}">
+                            <input type="hidden" name="timeslotId" th:value="${timeslot.id}" />
+                            <button type="submit" class="btn btn-primary" id="validationButton">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                </svg>
+                            </button>
+                    </td>
                     <td class="text-center">
                         <form th:action="@{/deleteTimeslot}" method="post">
                             <input type="hidden" name="timeslotId" th:value="${timeslot.id}"/>
@@ -41,8 +58,10 @@
                             </button>
                         </form>
                     </td>
+                </tr>
                 </tbody>
             </table>
+            </form>
         </div>
     </main>
 </body>

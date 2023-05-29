@@ -1,7 +1,11 @@
+/**
+ * Timeslot.java
+ * Purpose: Entity class for Timeslot
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
-
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity

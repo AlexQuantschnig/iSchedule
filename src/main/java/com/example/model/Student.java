@@ -1,7 +1,11 @@
+/**
+ * Student.java
+ * This class represents a student of the system.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
-
 import jakarta.persistence.*;
-
 import java.util.*;
 
 @Entity

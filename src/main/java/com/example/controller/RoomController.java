@@ -1,3 +1,9 @@
+/**
+ * RoomController.java
+ * Purpose: Controller of the rooms.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.controller;
 import com.example.model.Course;
 import com.example.model.Room;
@@ -6,7 +12,6 @@ import com.example.repository.RoomRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -20,6 +25,12 @@ public class RoomController {
         this.courseRepository = courseRepository;
     }
 
+    /**
+     * Method to add a room to the database.
+     * @param model The model used to pass data to the view.
+     * @param name The name of the room to be added.
+     * @return The name of the view to be displayed.
+     */
     @PostMapping("/addRoom")
     public String addRoom(Model model, @RequestParam String name){
         List<Room> rooms = roomRepository.findAll();

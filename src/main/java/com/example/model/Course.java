@@ -1,8 +1,13 @@
+/**
+ * Course
+ * This class represents a course in the database.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
 
 @Entity
 public class Course {

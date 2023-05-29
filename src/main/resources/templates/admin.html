@@ -10,13 +10,17 @@
 </head>
 <body>
 
-<nav class="navbar navbar-dark bg-dark justify-content-between">
+<nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" th:href="@{/logout}">LogOut</a>
-    <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/addCourse'">Manage Courses</button>
+    <div>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/allAssistants'">Manage Assistants</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/students'">Manage Students</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/addCourse'">Manage Courses</button>
+    </div>
 </nav>
 <main style="margin-bottom: 100px">
     <div class="container">
-        <h1 class="text-center text-primary" style="margin-top: 20px">All Courses</h1>
+        <h1 class="text-center text-dark" style="margin-top: 20px">All Courses</h1>
         <table class="table table-striped" style="margin-top: 60px">
             <thead class="table-header">
             <tr>

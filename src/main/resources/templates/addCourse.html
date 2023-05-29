@@ -10,10 +10,12 @@
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark justify-content-between">
-    <a class="navbar-brand" th:href="@{/admin}">Courses</a>
+    <button class="btn btn-outline-success my-2 my-sm-0" onclick="location.href='/admin'"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
+        <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
+    </svg></button>
 </nav>
 <main style="margin-bottom: 100px">
-    <h1 class="text-primary text-center" style="margin-top: 20px">Add a course</h1>
+    <h1 class="text-dark text-center" style="margin-top: 20px">Add a course</h1>
         <h3 class="text-danger text-center" th:if="${error}" th:text="${error}"></h3>
     <div class="container">
         <form th:action="@{/addCourse}" method="post">
@@ -23,7 +25,7 @@
             </div>
             <button type="submit" class="btn btn-success text-right">Add Course</button>
         </form>
-        <h1 class="text-primary text-center" style="padding-top: 20px">Add a room</h1>
+        <h1 class="text-dark text-center" style="padding-top: 20px">Add a room</h1>
         <form th:action="@{/addRoom}" method="post">
             <div class="mb-3">
                 <label for="roomName" class="form-label">Room Name:</label>
@@ -31,7 +33,7 @@
             </div>
             <button type="submit" class="btn btn-success text-right">Add Room</button>
         </form>
-        <h1 class="text-primary text-center" style="padding-top: 20px">Add a timeslot</h1>
+        <h1 class="text-dark text-center" style="padding-top: 20px">Add a timeslot</h1>
         <form action="/addTimeslot" method="post">
             <div class="mb-4">
                 <div id="timeslot-container">

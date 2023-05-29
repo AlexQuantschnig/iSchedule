@@ -1,7 +1,11 @@
+/**
+ * Assistant
+ * This class represents an assistant.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
-
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +18,6 @@ public class Assistant {
     private String name;
     @Column(unique = true)
     private String email;
-
     private String password;
     @OneToMany(mappedBy = "assistant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AssistantPreference> preferences = new ArrayList<>();
@@ -37,9 +40,6 @@ public class Assistant {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    // Getters and setters
-
     public Long getId() {
         return id;
     }
@@ -68,17 +68,4 @@ public class Assistant {
         return preferences;
     }
 
-    public void setPreferences(List<AssistantPreference> preferences) {
-        this.preferences = preferences;
-    }
-
-    public void addPreference(AssistantPreference preference) {
-        preferences.add(preference);
-        preference.setAssistant(this);
-    }
-
-    public void removePreference(AssistantPreference preference) {
-        preferences.remove(preference);
-        preference.setAssistant(null);
-    }
 }

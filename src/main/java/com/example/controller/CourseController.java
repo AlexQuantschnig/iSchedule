@@ -1,8 +1,13 @@
+/**
+ * CourseController.java
+ * Purpose: Controller of the courses.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.controller;
 import com.example.model.Course;
 import com.example.model.Room;
 import com.example.model.Student;
-import com.example.model.Timeslot;
 import com.example.repository.CourseRepository;
 import com.example.repository.RoomRepository;
 import com.example.repository.StudentRepository;
@@ -28,13 +33,12 @@ public class CourseController {
         this.roomRepository = roomRepository;
     }
 
-    @GetMapping("/admin")
-    public String getAllCourses(Model model) {
-        List<Course> courses = courseRepository.findAll();
-        model.addAttribute("courses", courses);
-        return "admin";
-    }
 
+    /**
+     * Method to get all courses from the database and display them on the administrator page.
+     * @param model The model used to pass data to the view.
+     * @return The name of the view to be displayed.
+     */
     @GetMapping("/addCourse")
     public String showAddCoursePage(Model model) {
         List<Room> rooms = roomRepository.findAll();
@@ -44,6 +48,13 @@ public class CourseController {
         return "addCourse";
     }
 
+    /**
+     * Method to add a course to the database.
+     * If the course already exists, an error message is displayed.
+     * @param model The model used to pass data to the view.
+     * @param courseName The name of the course to be added.
+     * @return The name of the view to be displayed.
+     */
     @PostMapping("/addCourse")
     public String addCourse(Model model, @RequestParam("name") String courseName) {
         List<Room> rooms = roomRepository.findAll();
@@ -58,6 +69,12 @@ public class CourseController {
         return "redirect:/admin";
     }
 
+    /**
+     * Method to get all the courses a student is not enrolled in.
+     * @param model The model used to pass data to the view.
+     * @param request The request object used to get the email of the student.
+     * @return The name of the view to be displayed.
+     */
     @GetMapping("/courses")
     public String coursesNotEnrolled(Model model, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
@@ -70,6 +87,12 @@ public class CourseController {
         return "courses";
     }
 
+    /**
+     * Method to add a course to the list of enrollments of a student.
+     * @param courseId The id of the course to be added.
+     * @param request The request object used to get the email of the student.
+     * @return The name of the view to be displayed.
+     */
     @PostMapping("/enroll")
     public String addEnrollment(@RequestParam("courseId") Long courseId, HttpServletRequest request) {
         String email = (String) request.getSession().getAttribute("email");
@@ -80,22 +103,21 @@ public class CourseController {
         return "redirect:/enrollments";
     }
 
+    /**
+     * Method to delete a course from the list of enrollments of a student.
+     * @param courseId The id of the course to be deleted.
+     * @return The name of the view to be displayed.
+     */
     @PostMapping("/deleteCourse")
     public String deleteCourse(@RequestParam("courseId") Long courseId) {
         Course course = courseRepository.findById(courseId).orElseThrow();
-
-        // Remove the course from all students' enrollments
         List<Student> students = studentRepository.findAll();
         for (Student student : students) {
             student.getEnrollments().remove(course);
             studentRepository.save(student);
         }
-
-        // Clear the enrollments of the course itself
         course.getStudents().clear();
         courseRepository.save(course);
-
-        // Delete the course
         courseRepository.delete(course);
 
         return "redirect:/admin";

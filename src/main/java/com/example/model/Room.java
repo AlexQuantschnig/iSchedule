@@ -1,7 +1,11 @@
+/**
+ * Room.java
+ * Purpose: Entity class for Room
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
-
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 

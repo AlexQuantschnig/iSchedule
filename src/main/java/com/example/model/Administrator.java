@@ -1,5 +1,10 @@
+/**
+ * Administrator
+ * This class represents an administrator of the system.
+ * Author: Alex Quantschnig
+ * Date: 29.05.2023
+ */
 package com.example.model;
-
 import jakarta.persistence.*;
 
 @Entity
